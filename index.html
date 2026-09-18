@@ -18,7 +18,7 @@
             background: var(--tg-theme-secondary-bg-color, #fff);
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 9px 10px rgba(0,0,0,0.1);
             max-width: 400px;
             margin: auto;
         }
@@ -27,7 +27,7 @@
             padding: 12px;
             font-size: 18px;
             border: 2px solid #ddd;
-            border-radius: 8px;
+            border-radius: 15px;
             margin-top: 10px;
             text-align: center;
         }
@@ -38,17 +38,25 @@
             margin-top: 20px;
             color: #28a745;
         }
+      h1{
+        color: #2ea6ff
+      }
+      body{
+    background: linear-gradient(hwb(0 100% 0%), hwb(0 100% 0%));
+    height: 100vh;
+      }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <h2>🌟 Stars Kalkulyator</h2>
-        <p>Sotib olmoqchi boʻlgan Stars miqdorini kiriting:</p>
-        <input type="number" id="starsInput" placeholder="Masalan: 50" oninput="calculate()">
+        <h2>🌟 Stars Hisoblovchi</h2>
+        <p>hisoblamoqchi boʻlgan Stars miqdorini kiriting:</p>
+        <input type="number" id="starsInput" placeholder="Masalan: 15" oninput="calculate()">
         <div class="result" id="resultText">Jami: 0 soʻm</div>
     </div>
-
+  <h1>Stars Kerak Boʻlsa Yozing</h1>
+  <h2>@WERUZB</h2>
     <script>
         let starPrice = 200; // 1 ta stars narxi (so'mda)
 
