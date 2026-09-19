@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stars Kalkulyator</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs..com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,10 +46,27 @@
     background: linear-gradient(hwb(0 100% 0%), hwb(0 100% 0%));
     height: 100vh;
       }
+      .header {
+            text-align: center;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid black(0, 0, 0, 0.10196078431372549);
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #000000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            border-radius: 15px;
+      }
     </style>
 </head>
 <body>
-
+  <div class="header">
+    <i class="fa-brands fa-telegram" style="color: #24A1DE; margin-right: 8px;"></i>@SeGiftbot
+  </div>
     <div class="card">
         <h2>🌟 Stars Hisoblovchi</h2>
         <p>hisoblamoqchi boʻlgan Stars miqdorini kiriting:</p>
