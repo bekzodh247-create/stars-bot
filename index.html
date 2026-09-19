@@ -1,92 +1,398 @@
 <!DOCTYPE html>
 <html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stars Kalkulyator</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #f5f5f5);
-            color: var(--tg-theme-text-color, #000);
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-        }
-        .card {
-            background: var(--tg-theme-secondary-bg-color, #fff);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 9px 10px rgba(0,0,0,0.1);
-            max-width: 400px;
-            margin: auto;
-        }
-        input {
-            width: 80%;
-            padding: 12px;
-            font-size: 18px;
-            border: 2px solid #ddd;
-            border-radius: 15px;
-            margin-top: 10px;
-            text-align: center;
-        }
-        h2 { color: #2ea6ff; }
-        .result {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 20px;
-            color: #28a745;
-        }
-      h1{
-        color: #2ea6ff
-      }
-      body{
-    background: linear-gradient(hwb(0 100% 0%), hwb(0 100% 0%));
-    height: 100vh;
-      }
-      .header {
-            text-align: center;
-            padding: 18px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid black(0, 0, 0, 0.10196078431372549);
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #000000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-            border-radius: 15px;
-      }
-    </style>
-</head>
-<body>
-  <div class="header">
-    <i class="fa-brands fa-telegram" style="color: #24A1DE; margin-right: 8px;"></i>@SeGiftbot
-  </div>
-    <div class="card">
-        <h2>🌟 Stars Hisoblovchi</h2>
-        <p>hisoblamoqchi boʻlgan Stars miqdorini kiriting:</p>
-        <input type="number" id="starsInput" placeholder="Masalan: 15" oninput="calculate()">
-        <div class="result" id="resultText">Jami: 0 soʻm</div>
-    </div>
-  <h1>Stars Kerak Boʻlsa Yozing</h1>
-  <h2>@WERUZB</h2>
-    <script>
-        let starPrice = 200; // 1 ta stars narxi (so'mda)
 
-        function calculate() {
-            let count = document.getElementById('starsInput').value;
-            if(count === "" || count < 0) {
-                document.getElementById('resultText').innerText = "Jami: 0 soʻm";
-                return;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stars Kalkulyator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background-color: #0045f1;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(0, 119, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 200, 0.1) 0%, transparent 40%);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Top Telegram Button */
+    .top-btn {
+      background: linear-gradient(135deg, rgba(0, 136, 204, 0.25), rgba(0, 119, 255, 0.4));
+      border: 1px solid rgba(0, 162, 255, 0.4);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 8px 32px 0 rgba(0, 120, 255, 0.2);
+      backdrop-filter: blur(10px);
+      transition: 0.3s ease;
+    }
+
+    .top-btn i {
+      color: #0088cc;
+      background: #ffffff;
+      border-radius: 50%;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    .top-btn:hover {
+      border-color: rgba(0, 162, 255, 0.8);
+      box-shadow: 0 8px 32px 0 rgba(0, 162, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Main Calculator Card */
+    .calc-card {
+      background: linear-gradient(145deg, rgba(16, 33, 75, 0.6), rgba(8, 18, 43, 0.7));
+      border: 1px solid rgba(0, 140, 255, 0.3);
+      border-radius: 24px;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Star Icon & Glow Header */
+    .star-header-container {
+      position: relative;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 100px;
+    }
+
+    .star-glow {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(10px);
+    }
+
+    .star-icon-main {
+      font-size: 48px;
+      color: #ffcc00;
+      filter: drop-shadow(0 0 12px rgba(255, 204, 0, 0.8));
+      z-index: 2;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-5px) scale(1.05);
+      }
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title span {
+      color: #ffffff;
+    }
+
+    .card-title .stars-text {
+      color: #38bdf8;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 25px;
+      line-height: 1.4;
+      max-width: 280px;
+    }
+
+    /* Input Wrapper */
+    .input-box {
+      width: 100%;
+      background: rgba(5, 15, 35, 0.6);
+      border: 1px solid rgba(0, 140, 255, 0.35);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      transition: 0.3s;
+    }
+
+    .input-box:focus-within {
+      border-color: #00bfff;
+      box-shadow: 0 0 15px rgba(0, 191, 255, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .input-box i {
+      color: #38bdf8;
+      font-size: 18px;
+    }
+
+    .input-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-size: 16px;
+      width: 100%;
+      font-weight: 600;
+    }
+
+    .input-box input::placeholder {
+      color: #64748b;
+      font-weight: 400;
+    }
+
+    /* Hide number arrows */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Result Button / Box */
+    .result-box {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(0, 200, 130, 0.15), rgba(0, 150, 255, 0.2));
+      border: 1px solid rgba(0, 230, 150, 0.4);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 8px 25px rgba(0, 200, 130, 0.15);
+    }
+
+    .result-box i {
+      color: #00e696;
+      font-size: 20px;
+    }
+
+    .result-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .result-text span {
+      color: #00e696;
+    }
+
+    /* Bottom Card & Button */
+    .bottom-card {
+      background: linear-gradient(145deg, rgba(16, 33, 75, 0.6), rgba(8, 18, 43, 0.7));
+      border: 1px solid rgba(0, 140, 255, 0.3);
+      border-radius: 24px;
+      padding: 25px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bottom-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+    }
+
+    .bottom-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .bottom-title i {
+      color: #ffffff;
+      background: #0088cc;
+      border-radius: 50%;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .bottom-btn {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(0, 136, 204, 0.4), rgba(0, 100, 200, 0.6));
+      border: 1px solid rgba(0, 162, 255, 0.5);
+      border-radius: 16px;
+      padding: 14px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      box-shadow: 0 8px 25px rgba(0, 120, 255, 0.3);
+      transition: 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bottom-btn:hover {
+      border-color: rgba(0, 162, 255, 0.9);
+      box-shadow: 0 8px 25px rgba(0, 162, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      /* Bloklar orasidagi masofani shu yerdan boshqarasiz */
+    }
+    .bottom-card {
+    margin-top: 20px; /* Bu qiymatni o'zingizga moslab 20px, 25px yoki 30px qilib o'zgartirishingiz mumkin */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <!-- Yuqori havola tugmasi -->
+    <a href="https://t.me/SeGiftbot" target="_blank" class="top-btn">
+      <i class="fab fa-telegram-plane"></i>
+      @SeGiftbot
+    </a>
+
+    <!-- Asosiy Kalkulyator Bloki -->
+    <div class="calc-card">
+      <div class="star-header-container">
+        <div class="star-glow"></div>
+        <i class="fas fa-star star-icon-main"></i>
+      </div>
+
+      <div class="card-title">
+        <span class="stars-text">Stars</span> Hisoblovchi
+      </div>
+
+      <div class="card-desc">
+        hisoblamoqchi bo‘lgan Stars miqdorini kiriting:
+      </div>
+
+      <!-- Input qismi -->
+      <div class="input-box">
+        <i class="far fa-star"></i>
+        <input type="number" id="starInput" placeholder="Masalan: 15" min="0">
+      </div>
+
+      <!-- Natija qismi -->
+      <div class="result-box">
+        <i class="fas fa-coins"></i>
+        <div class="result-text" id="resultText">Jami: 0 soʻm</div>
+      </div>
+      <!-- Pastdagi qo'shimcha tugma bloki -->
+      <div class="bottom-card">
+        <div class="bottom-title">
+          <i class="fab fa-telegram-plane"></i>
+          Stars Kerak Boʻlsa Yozing
+        </div>
+        <a href="https://t.me/WERUZB" target="_blank" class="bottom-btn">
+          @WERUZB
+        </a>
+      </div>
+    </div>
+  </div>
+  <center>Reklam Uchun Joy</center>
+  <center>@StarHelpUz</center>
+  <script>
+        const starInput = document.getElementById('starInput');
+        const resultText = document.getElementById('resultText');
+        const RATE = 200; // 1 ta star narxi 200 so'm
+
+        // Sahifa yuklanganda xotiradan (localStorage) oxirgi kiritilgan qiymatni tiklash
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedStars = localStorage.getItem('telegram_stars_count');
+            if (savedStars !== null) {
+                starInput.value = savedStars;
+                calculate(savedStars);
             }
-            let total = count * starPrice;
-            document.getElementById('resultText').innerHTML = `Jami: <b>${total.toLocaleString()} soʻm</b>`;
+        });
+
+        // Input o'zgarganda hisoblash va localStorage'ga saqlash
+        starInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            localStorage.setItem('telegram_stars_count', val);
+            calculate(val);
+        });
+
+        function calculate(val) {
+            const stars = parseInt(val);
+            if (isNaN(stars) || stars <= 0) {
+                resultText.innerHTML = "Jami: 0 soʻm";
+            } else {
+                const total = stars * RATE;
+                // Raqamlarni chiroyli formatlash (masalan: 15 000)
+                const formattedTotal = total.toLocaleString('uz-UZ');
+                resultText.innerHTML = `Jami: ${formattedTotal} soʻm`;
+            }
         }
     </script>
 </body>
+
 </html>
