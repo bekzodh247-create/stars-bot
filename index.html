@@ -4,393 +4,641 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stars Kalkulyator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Stars Kalkulyator & Sotib olish</title>
   <style>
+    :root {
+      --bg-color: #1c1c1c;
+      --card-bg: #000000;
+      --accent-color: #3a86ff;
+      --accent-gradient: linear-gradient(135deg, #4361ee, #3a0ca3);
+      --text-color: #ffffff;
+      --text-muted: #8d99ae;
+      --yellow: #ffbe0b;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       user-select: none;
     }
 
     body {
-      background-color: #0045f1;
-      background-image:
-        radial-gradient(circle at 20% 20%, rgba(0, 119, 255, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(0, 255, 200, 0.1) 0%, transparent 40%);
-      color: #ffffff;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
+      padding-bottom: 70px;
     }
 
-    .container {
-      width: 100%;
-      max-width: 420px;
+    .top-bar {
       display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* Top Telegram Button */
-    .top-btn {
-      background: linear-gradient(135deg, rgba(0, 136, 204, 0.25), rgba(0, 119, 255, 0.4));
-      border: 1px solid rgba(0, 162, 255, 0.4);
-      border-radius: 20px;
-      padding: 16px;
-      display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 18px;
-      box-shadow: 0 8px 32px 0 rgba(0, 120, 255, 0.2);
+      padding: 15px 20px;
+      background: rgba(28, 37, 65, 0.8);
       backdrop-filter: blur(10px);
-      transition: 0.3s ease;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 25px;
     }
 
-    .top-btn i {
-      color: #0088cc;
-      background: #ffffff;
-      border-radius: 50%;
-      padding: 8px;
+    .bot-link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 600;
       font-size: 16px;
-    }
-
-    .top-btn:hover {
-      border-color: rgba(0, 162, 255, 0.8);
-      box-shadow: 0 8px 32px 0 rgba(0, 162, 255, 0.4);
-      transform: translateY(-2px);
-    }
-
-    /* Main Calculator Card */
-    .calc-card {
-      background: linear-gradient(145deg, rgba(16, 33, 75, 0.6), rgba(8, 18, 43, 0.7));
-      border: 1px solid rgba(0, 140, 255, 0.3);
-      border-radius: 24px;
-      padding: 30px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Star Icon & Glow Header */
-    .star-header-container {
-      position: relative;
-      margin-bottom: 15px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100px;
-      height: 100px;
-    }
-
-    .star-glow {
-      position: absolute;
-      width: 70px;
-      height: 70px;
-      background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(10px);
-    }
-
-    .star-icon-main {
-      font-size: 48px;
-      color: #ffcc00;
-      filter: drop-shadow(0 0 12px rgba(255, 204, 0, 0.8));
-      z-index: 2;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-
-      0%,
-      100% {
-        transform: translateY(0) scale(1);
-      }
-
-      50% {
-        transform: translateY(-5px) scale(1.05);
-      }
-    }
-
-    .card-title {
-      font-size: 24px;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .card-title span {
-      color: #ffffff;
+    .bot-link svg {
+      width: 22px;
+      height: 22px;
+      fill: #2481cc;
     }
 
-    .card-title .stars-text {
-      color: #38bdf8;
+    .admin-btn {
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      color: var(--text-color);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+      box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
     }
 
-    .card-desc {
-      font-size: 13px;
-      color: #94a3b8;
-      margin-bottom: 25px;
-      line-height: 1.4;
-      max-width: 280px;
+    .admin-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
 
-    /* Input Wrapper */
-    .input-box {
+    .container {
+      flex: 1;
+      padding: 20px;
+      max-width: 480px;
+      margin: 0 auto;
       width: 100%;
-      background: rgba(5, 15, 35, 0.6);
-      border: 1px solid rgba(0, 140, 255, 0.35);
-      border-radius: 16px;
-      padding: 14px 18px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 20px;
+    }
+
+    .star-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 10px rgba(255, 190, 11, 0.5));
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .presets {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
+      padding: 10px 0;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .preset-btn:hover,
+    .preset-btn.selected {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      box-shadow: 0 0 12px rgba(58, 134, 255, 0.4);
+    }
+
+    .input-box {
+      background: rgba(11, 19, 43, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-      transition: 0.3s;
-    }
-
-    .input-box:focus-within {
-      border-color: #00bfff;
-      box-shadow: 0 0 15px rgba(0, 191, 255, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .input-box i {
-      color: #38bdf8;
-      font-size: 18px;
+      gap: 10px;
+      margin-bottom: 15px;
     }
 
     .input-box input {
       background: transparent;
       border: none;
-      outline: none;
-      color: #ffffff;
+      color: var(--text-color);
       font-size: 16px;
       width: 100%;
-      font-weight: 600;
+      outline: none;
     }
 
     .input-box input::placeholder {
-      color: #64748b;
-      font-weight: 400;
+      color: var(--text-muted);
     }
 
-    /* Hide number arrows */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    /* Result Button / Box */
-    .result-box {
-      width: 100%;
-      background: linear-gradient(135deg, rgba(0, 200, 130, 0.15), rgba(0, 150, 255, 0.2));
-      border: 1px solid rgba(0, 230, 150, 0.4);
-      border-radius: 16px;
-      padding: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      box-shadow: 0 8px 25px rgba(0, 200, 130, 0.15);
-    }
-
-    .result-box i {
-      color: #00e696;
-      font-size: 20px;
-    }
-
-    .result-text {
+    .total-box {
+      background: rgba(11, 19, 43, 0.8);
+      border: 1px solid rgba(58, 134, 255, 0.3);
+      border-radius: 14px;
+      padding: 14px;
       font-size: 18px;
       font-weight: 700;
-      color: #ffffff;
-    }
-
-    .result-text span {
-      color: #00e696;
-    }
-
-    /* Bottom Card & Button */
-    .bottom-card {
-      background: linear-gradient(145deg, rgba(16, 33, 75, 0.6), rgba(8, 18, 43, 0.7));
-      border: 1px solid rgba(0, 140, 255, 0.3);
-      border-radius: 24px;
-      padding: 25px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .bottom-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
-    }
-
-    .bottom-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 16px;
+      color: var(--yellow);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
+      margin-bottom: 20px;
     }
 
-    .bottom-title i {
-      color: #ffffff;
-      background: #0088cc;
-      border-radius: 50%;
-      padding: 8px;
-      font-size: 14px;
-    }
-
-    .bottom-btn {
+    .action-btn {
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
       width: 100%;
-      background: linear-gradient(135deg, rgba(0, 136, 204, 0.4), rgba(0, 100, 200, 0.6));
-      border: 1px solid rgba(0, 162, 255, 0.5);
-      border-radius: 16px;
       padding: 14px;
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 700;
+      border-radius: 14px;
       font-size: 16px;
-      box-shadow: 0 8px 25px rgba(0, 120, 255, 0.3);
-      transition: 0.3s ease;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
+      transition: transform 0.1s, opacity 0.2s;
+    }
+
+    .action-btn:active {
+      transform: scale(0.98);
+    }
+
+    .support-link-btn {
+      display: block;
+      background: rgba(58, 134, 255, 0.15);
+      color: var(--accent-color);
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(58, 134, 255, 0.3);
+      transition: background 0.2s;
+    }
+
+    .support-link-btn:hover {
+      background: rgba(58, 134, 255, 0.25);
+    }
+
+    .footer-promo {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .footer-promo a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
       display: flex;
-      align-items: center;
-      justify-content: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      z-index: 100;
     }
 
-    .bottom-btn:hover {
-      border-color: rgba(0, 162, 255, 0.9);
-      box-shadow: 0 8px 25px rgba(0, 162, 255, 0.5);
-      transform: translateY(-2px);
+    .nav-item {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+      border: none;
+      background: transparent;
     }
 
-    .container {
-      width: 100%;
-      max-width: 420px;
+    .nav-item.active {
+      color: var(--accent-color);
+      background: rgba(58, 134, 255, 0.05);
+      border-top: 2px solid var(--accent-color);
+    }
+
+    .history-list {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      /* Bloklar orasidagi masofani shu yerdan boshqarasiz */
+      gap: 10px;
+      border-radius: 10px;
     }
-    .bottom-card {
-    margin-top: 20px; /* Bu qiymatni o'zingizga moslab 20px, 25px yoki 30px qilib o'zgartirishingiz mumkin */
+
+    .history-item {
+      background: var(--card-bg);
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .history-info .stars-amt {
+      font-weight: 700;
+      color: var(--yellow);
+      font-size: 15px;
+    }
+
+    .history-info .username {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .history-status {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      background: rgba(255, 190, 11, 0.15);
+      color: var(--yellow);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 360px;
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      animation: modalPop 0.3s ease;
+    }
+
+    @keyframes modalPop {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-card h3 {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .modal-card p {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-cancel {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
+      border: none;
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-confirm {
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(58, 134, 255, 0.3);
+    }
+
+    .admin-orders {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 250px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .admin-order-card {
+      background: rgba(11, 19, 43, 0.6);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-    <!-- Yuqori havola tugmasi -->
-    <a href="https://t.me/SeGiftbot" target="_blank" class="top-btn">
-      <i class="fab fa-telegram-plane"></i>
-      @SeGiftbot
+  <div class="top-bar">
+    <a href="https://t.me/SeGiftbot" target="_blank" class="bot-link">
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.02-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.35-.49.96-.75 3.78-1.65 6.31-2.74 7.58-3.28 3.61-1.51 4.36-1.77 4.85-1.78.11 0 .35.03.5.15.13.11.17.26.19.37.02.11.03.35.01.54z" />
+      </svg> @SeGiftbot
     </a>
+    <button class="admin-btn" onclick="openAdminModal()">Admin Panel</button>
+  </div>
 
-    <!-- Asosiy Kalkulyator Bloki -->
-    <div class="calc-card">
-      <div class="star-header-container">
-        <div class="star-glow"></div>
-        <i class="fas fa-star star-icon-main"></i>
-      </div>
+  <div class="container">
+    <div id="tab-main" class="tab-content active">
+      <div class="card">
+        <div class="star-icon">⭐</div>
+        <h1>Stars Sotib Olish</h1>
+        <p class="subtitle">Sotibolmoqchi bo'lgan Stars miqdorini kiriting yoki tanlang:</p>
 
-      <div class="card-title">
-        <span class="stars-text">Stars</span> Hisoblovchi
-      </div>
-
-      <div class="card-desc">
-        hisoblamoqchi bo‘lgan Stars miqdorini kiriting:
-      </div>
-
-      <!-- Input qismi -->
-      <div class="input-box">
-        <i class="far fa-star"></i>
-        <input type="number" id="starInput" placeholder="Masalan: 15" min="0">
-      </div>
-
-      <!-- Natija qismi -->
-      <div class="result-box">
-        <i class="fas fa-coins"></i>
-        <div class="result-text" id="resultText">Jami: 0 soʻm</div>
-      </div>
-      <!-- Pastdagi qo'shimcha tugma bloki -->
-      <div class="bottom-card">
-        <div class="bottom-title">
-          <i class="fab fa-telegram-plane"></i>
-          Stars Kerak Boʻlsa Yozing
+        <div class="presets">
+          <button class="preset-btn" onclick="setPreset(15)">15</button>
+          <button class="preset-btn" onclick="setPreset(25)">25</button>
+          <button class="preset-btn" onclick="setPreset(50)">50</button>
+          <button class="preset-btn" onclick="setPreset(100)">100</button>
         </div>
-        <a href="https://t.me/WERUZB" target="_blank" class="bottom-btn">
-          @WERUZB
-        </a>
+
+        <div class="input-box">
+          <span>⭐</span>
+          <input type="number" id="starsInput" placeholder="Masalan: 15" oninput="calculateTotal()">
+        </div>
+
+        <div class="total-box">
+          <span>💳</span>
+          <span id="totalSum">Jami: 0 so'm</span>
+        </div>
+
+        <button class="action-btn" onclick="openOrderModal()">Buyurtma berish</button>
+      </div>
+
+      <div class="card" style="padding: 16px; margin-bottom: 0;">
+        <p class="subtitle" style="margin-bottom: 10px;">Stars Kerak Bo'lsa Yozing</p>
+        <a href="https://t.me/WERUZB" target="_blank" class="support-link-btn">@WERUZB</a>
+      </div>
+
+      <div class="footer-promo">
+        Reklam Uchun Joy<br>
+        <a href="https://t.me/StarHelpUz" target="_blank">@StarHelpUz</a>
+      </div>
+    </div>
+
+    <div id="tab-history" class="tab-content">
+      <h2 style="margin-bottom: 15px; font-size: 20px;">Buyurtmalar Tarixi</h2>
+      <div class="history-list" id="historyListContainer"></div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('main', this)">Asosiy</button>
+    <button class="nav-item" onclick="switchTab('history', this)">Tarix</button>
+  </div>
+
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal-card">
+      <h3>Buyurtmani Tasdiqlash</h3>
+      <p>Stars yuborilishi kerak bo'lgan Telegram username yoki havolasini kiriting:</p>
+      <div class="input-box" style="margin-bottom: 15px;">
+        <span style="color: var(--accent-color);">@</span>
+        <input type="text" id="usernameInput" placeholder="username">
+      </div>
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeOrderModal()">Bekor qilish</button>
+        <button class="btn-confirm" onclick="submitOrder()">Tasdiqlash</button>
       </div>
     </div>
   </div>
-  <center>Reklam Uchun Joy</center>
-  <center>@StarHelpUz</center>
+
+  <div class="modal-overlay" id="adminLoginModal">
+    <div class="modal-card">
+      <h3>Admin Panel</h3>
+      <p>Kirish uchun maxfiy kodni kiriting:</p>
+      <div class="input-box" style="margin-bottom: 15px;">
+        <span>🔒</span>
+        <input type="password" id="adminCodeInput" placeholder="Kodni kiriting">
+      </div>
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeAdminModal()">Bekor qilish</button>
+        <button class="btn-confirm" onclick="checkAdminCode()">Kirish</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="adminDashboardModal">
+    <div class="modal-card" style="max-width: 400px;">
+      <h3>Admin Paneli</h3>
+      <p style="margin-bottom: 10px;">Barcha kelib tushgan buyurtmalar:</p>
+      <div class="admin-orders" id="adminOrdersContainer"></div>
+      <div style="margin-top: 15px;">
+        <button class="btn-cancel" style="width: 100%;" onclick="closeAdminDashboard()">Chiqish</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-        const starInput = document.getElementById('starInput');
-        const resultText = document.getElementById('resultText');
-        const RATE = 200; // 1 ta star narxi 200 so'm
+        const PRICE_PER_STAR = 200;
+        let orders = [];
 
-        // Sahifa yuklanganda xotiradan (localStorage) oxirgi kiritilgan qiymatni tiklash
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedStars = localStorage.getItem('telegram_stars_count');
-            if (savedStars !== null) {
-                starInput.value = savedStars;
-                calculate(savedStars);
+        function switchTab(tabName, element) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+            element.classList.add('active');
+            if(tabName === 'history') {
+                renderHistory();
             }
-        });
+        }
 
-        // Input o'zgarganda hisoblash va localStorage'ga saqlash
-        starInput.addEventListener('input', (e) => {
-            const val = e.target.value;
-            localStorage.setItem('telegram_stars_count', val);
-            calculate(val);
-        });
+        function setPreset(amount) {
+            document.getElementById('starsInput').value = amount;
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                if(btn.textContent == amount) btn.classList.add('selected');
+                else btn.classList.remove('selected');
+            });
+            calculateTotal();
+        }
 
-        function calculate(val) {
-            const stars = parseInt(val);
-            if (isNaN(stars) || stars <= 0) {
-                resultText.innerHTML = "Jami: 0 soʻm";
+        function calculateTotal() {
+            const val = parseInt(document.getElementById('starsInput').value) || 0;
+            const total = val * PRICE_PER_STAR;
+            document.getElementById('totalSum').textContent = `Jami: ${total.toLocaleString()} so'm`;
+            
+            const activePreset = document.querySelector('.preset-btn.selected');
+            if(activePreset && activePreset.textContent != val) {
+                activePreset.classList.remove('selected');
+            }
+        }
+
+        function openOrderModal() {
+            const val = parseInt(document.getElementById('starsInput').value) || 0;
+            if(val <= 0) {
+                alert("Iltimos, Stars miqdorini kiriting yoki tanlang!");
+                return;
+            }
+            document.getElementById('usernameInput').value = '';
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function submitOrder() {
+            let username = document.getElementById('usernameInput').value.trim();
+            const val = parseInt(document.getElementById('starsInput').value) || 0;
+            const total = val * PRICE_PER_STAR;
+
+            if(!username) {
+                alert("Iltimos, @UserName kiriting!");
+                return;
+            }
+
+            if(!username.startsWith('@')) {
+                username = '@' + username;
+            }
+
+            const newOrder = {
+                id: Date.now(),
+                stars: val,
+                total: total,
+                username: username,
+                date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                status: 'Bajarilmoqda'
+            };
+
+            orders.unshift(newOrder);
+            closeOrderModal();
+            
+            document.getElementById('starsInput').value = '';
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('selected'));
+            calculateTotal();
+
+            alert("Buyurtmangiz muvaffaqiyatli qabul qilindi!");
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historyListContainer');
+            if(orders.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color: var(--text-muted); margin-top: 40px;">Hozircha buyurtmalar tarixi bo'sh</p>`;
+                return;
+            }
+
+            container.innerHTML = orders.map(order => `
+                <div class="history-item">
+                    <div class="history-info">
+                        <div class="stars-amt">⭐ ${order.stars} Stars — ${order.total.toLocaleString()} so'm</div>
+                        <div class="username">${order.username} | ${order.date}</div>
+                    </div>
+                    <div class="history-status">${order.status}</div>
+                </div>
+            `).join('');
+        }
+
+        function openAdminModal() {
+            document.getElementById('adminCodeInput').value = '';
+            document.getElementById('adminLoginModal').style.display = 'flex';
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminLoginModal').style.display = 'none';
+        }
+
+        function checkAdminCode() {
+            const code = document.getElementById('adminCodeInput').value;
+            if(code === '12344321') {
+                closeAdminModal();
+                openAdminDashboard();
             } else {
-                const total = stars * RATE;
-                // Raqamlarni chiroyli formatlash (masalan: 15 000)
-                const formattedTotal = total.toLocaleString('uz-UZ');
-                resultText.innerHTML = `Jami: ${formattedTotal} soʻm`;
+                alert("Xato kod kiritildi!");
             }
+        }
+
+        function openAdminDashboard() {
+            const container = document.getElementById('adminOrdersContainer');
+            if(orders.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color: var(--text-muted);">Yangi buyurtmalar yo'q</p>`;
+            } else {
+                container.innerHTML = orders.map(order => `
+                    <div class="admin-order-card">
+                        <b>Foydalanuvchi:</b> ${order.username}<br>
+                        <b>Miqdori:</b> ${order.stars} Stars (${order.total.toLocaleString()} so'm)<br>
+                        <b>Vaqti:</b> ${order.date}
+                    </div>
+                `).join('');
+            }
+            document.getElementById('adminDashboardModal').style.display = 'flex';
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById('adminDashboardModal').style.display = 'none';
         }
     </script>
 </body>
