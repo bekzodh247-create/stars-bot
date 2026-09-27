@@ -153,7 +153,10 @@ input::placeholder{color:var(--sub);}
 
   <div id="view-admin" class="hidden">
     <button class="backbtn" id="adminBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Orqaga</button>
-    <div class="stat"><span>Sotilgan Stars</span><b id="totalStars" class="countup">0</b></div>
+    <div class="stat row" style="align-items:flex-start;">
+      <div><span>Sotilgan Stars</span><b id="totalStars" class="countup" style="font-size:22px;">0</b></div>
+      <div style="text-align:right;"><span>Tushgan pul</span><b id="totalMoney" class="countup" style="font-size:22px;">0 so'm</b></div>
+    </div>
     <div class="card row" style="margin-bottom:14px;">
       <div>
         <b style="display:block;">Web-App holati</b>
@@ -335,8 +338,11 @@ function renderAdminList(filter){
       <button class="btn no" onclick="setStatus('${o.id}','rejected')">Bekor qilish</button>
     </div>`:''}
   </div>`).join('') || '<p style="color:var(--sub);text-align:center;padding:20px 0;">Buyurtma topilmadi</p>';
-  const total=allOrders.filter(o=>o.status==='approved').reduce((a,o)=>a+o.stars,0);
+  const approved=allOrders.filter(o=>o.status==='approved');
+  const total=approved.reduce((a,o)=>a+o.stars,0);
+  const money=approved.reduce((a,o)=>a+parseInt(String(o.price||'0').replace(/[^0-9]/g,''),10),0);
   $('#totalStars').textContent=total;
+  $('#totalMoney').textContent=money.toLocaleString('ru-RU')+" so'm";
 }
 
 async function setStatus(id,status){
