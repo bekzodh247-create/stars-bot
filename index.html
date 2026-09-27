@@ -1,638 +1,405 @@
 <!DOCTYPE html>
 <html lang="uz">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>@SeGiftBot - Stars Shop</title>
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    /* Kunduzgi va Tungi Rejim Ranglari */
-    :root {
-      --bg-main: #030712;
-      --text-main: #f3f4f6;
-      --card-bg: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.95));
-      --card-border: rgba(255, 255, 255, 0.1);
-      --header-bg: rgba(15, 23, 42, 0.85);
-      --modal-bg: #0f172a;
-      --input-bg: #020617;
-      --input-border: #334155;
-      --text-muted: #94a3b8;
-    }
-
-    body.light-mode {
-      --bg-main: #f8fafc;
-      --text-main: #0f172a;
-      --card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.95));
-      --card-border: rgba(0, 0, 0, 0.08);
-      --header-bg: rgba(255, 255, 255, 0.85);
-      --modal-bg: #ffffff;
-      --input-bg: #f1f5f9;
-      --input-border: #cbd5e1;
-      --text-muted: #64748b;
-    }
-
-    body {
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding-bottom: 90px;
-    }
-
-    .bg-glow {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .glow-1 {
-      position: absolute;
-      top: -100px;
-      left: -100px;
-      width: 300px;
-      height: 300px;
-      background: rgba(37, 99, 235, 0.25);
-      border-radius: 50%;
-      filter: blur(80px);
-    }
-
-    .glow-2 {
-      position: absolute;
-      top: 40%;
-      right: -100px;
-      width: 300px;
-      height: 300px;
-      background: rgba(245, 158, 11, 0.2);
-      border-radius: 50%;
-      filter: blur(80px);
-    }
-
-    .container {
-      position: relative;
-      z-index: 10;
-      max-width: 440px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 16px;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      background: var(--header-bg);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--card-border);
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      border-radius: 20px;
-    }
-
-    .logo-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 900;
-      font-size: 18px;
-      background: linear-gradient(90deg, #3b82f6, #60a5fa, #2563eb);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .check-icon {
-      background: #3b82f6;
-      color: white;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
-      box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-    }
-
-    .header-btns {
-      display: flex;
-      gap: 8px;
-    }
-
-    .icon-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .icon-btn:hover {
-      opacity: 0.8;
-    }
-
-    .glass-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-    }
-
-    .banner {
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-
-    .star-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      background: rgba(245, 158, 11, 0.15);
-      color: #fbbf24;
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .packages-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .package-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 16px;
-      cursor: pointer;
-      transition: 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .package-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(59, 130, 246, 0.5);
-      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
-    }
-
-    .hit-badge {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: linear-gradient(90deg, #f59e0b, #ea580c);
-      color: white;
-      font-size: 9px;
-      font-weight: 900;
-      padding: 4px 10px;
-      border-bottom-left-radius: 12px;
-    }
-
-    nav.bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      max-width: 440px;
-      margin: 0 auto;
-      padding: 12px;
-      z-index: 40;
-    }
-
-    .nav-container {
-      background: var(--header-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 6px;
-      display: flex;
-      gap: 6px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    .nav-btn {
-      flex: 1;
-      padding: 12px;
-      border-radius: 14px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: bold;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .nav-btn.active {
-      background: #2563eb;
-      color: white;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-
-    .modal-overlay.hidden {
-      display: none;
-    }
-
-    .modal-box {
-      width: 100%;
-      max-width: 360px;
-      background: var(--modal-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 24px;
-      position: relative;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .modal-bottom {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      max-width: 440px;
-      margin: 0 auto;
-      background: var(--modal-bg);
-      border-top: 1px solid var(--card-border);
-      border-top-left-radius: 24px;
-      border-top-right-radius: 24px;
-      padding: 20px;
-      max-height: 85vh;
-      display: flex;
-      flex-direction: column;
-      z-index: 100;
-      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
-    }
-
-    .input-box {
-      width: 100%;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      border-radius: 14px;
-      padding: 12px 16px 12px 36px;
-      color: var(--text-main);
-      font-size: 14px;
-      outline: none;
-      margin-top: 6px;
-    }
-
-    .input-box:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
-    }
-
-    .btn-primary {
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      background: linear-gradient(90deg, #2563eb, #3b82f6);
-      color: white;
-      border: none;
-      font-weight: bold;
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-      margin-top: 14px;
-      transition: 0.2s;
-    }
-
-    .btn-primary:active {
-      transform: scale(0.98);
-    }
-
-    .hidden {
-      display: none !important;
-    }
-    .info-capsule {
-    background: rgba(30, 41, 59, 0.5);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(59, 130, 246, 0.25);
-    border-radius: 9999px; /* To'liq aylana/kapsula shaklini beradi */
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    margin-top: 20px;
-    margin-bottom: 30px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stars Shop</title>
+<style>
+:root{
+  --bg:#eef1f8; --bg2:#e2e8f5; --card:rgba(255,255,255,.55); --cardb:rgba(255,255,255,.7);
+  --text:#12131a; --sub:#5b6072; --accent:#3b82f6;
+  --gold:#f5a623; --gold2:#f7b955; --danger:#ef4444; --ok:#22c55e; --border:rgba(20,20,30,.08);
+  --solid:#ffffff; --solidtext:#12131a; --cancelbg:#eef0f5;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#05060a; --bg2:#0d0f1a; --card:rgba(255,255,255,.06); --cardb:rgba(255,255,255,.09);
+    --text:#f5f7fb; --sub:#9aa0b4; --border:rgba(255,255,255,.1); --solid:#171923; --solidtext:#f5f7fb; --cancelbg:#262a38;}
+}
+:root[data-theme="dark"]{--bg:#05060a; --bg2:#0d0f1a; --card:rgba(255,255,255,.06); --cardb:rgba(255,255,255,.09);
+  --text:#f5f7fb; --sub:#9aa0b4; --border:rgba(255,255,255,.1); --solid:#171923; --solidtext:#f5f7fb; --cancelbg:#262a38;}
+html{scroll-padding-top:env(safe-area-inset-top,0px); height:100%;}
+*{margin:0;box-sizing:border-box;font-family:-apple-system,Segoe UI,Roboto,sans-serif;}
+body{color:var(--text);height:100%;min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;
+  background:radial-gradient(1200px 700px at 15% -10%,rgba(245,166,35,.16),transparent 60%),
+             radial-gradient(1000px 600px at 100% 0%,rgba(59,130,246,.14),transparent 55%),
+             linear-gradient(180deg,var(--bg),var(--bg2));
+  background-attachment:fixed;}
+.topbar{position:sticky;top:0;z-index:20;padding:calc(env(safe-area-inset-top,0px) + 12px) 16px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--card);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--border);}
+.topbar h1{font-size:20px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:6px;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);}
+.icnbtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--card);
+  backdrop-filter:blur(16px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 2px 8px rgba(0,0,0,.08);
+  display:flex;align-items:center;justify-content:center;color:var(--text);cursor:pointer;transition:transform .15s cubic-bezier(.34,1.56,.64,1);}
+.icnbtn:active{transform:scale(.88);}
+main{padding:16px 16px 130px;max-width:520px;margin:0 auto;}
+.hero{background:linear-gradient(135deg,var(--cardb),var(--card));backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid var(--border);border-radius:28px;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 10px 34px rgba(0,0,0,.12);
+  padding:22px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.badge{display:inline-block;background:rgba(245,166,35,.18);color:var(--gold);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:8px;}
+.hero h2{font-size:22px;margin-bottom:4px;color:var(--text);}
+.hero p{color:var(--sub);font-size:14px;}
+.hero p b{color:var(--gold);}
+.star{width:60px;height:60px;border-radius:20px;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 6px 18px rgba(245,166,35,.35);
+  display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;}
+.sec-title{font-size:12px;color:var(--sub);letter-spacing:.05em;font-weight:700;margin:0 0 10px 2px;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.pkg{position:relative;background:var(--card);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid var(--border);border-radius:24px;padding:18px;text-align:left;cursor:pointer;color:var(--text);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 6px 20px rgba(0,0,0,.08);transition:transform .18s cubic-bezier(.34,1.56,.64,1);}
+.pkg:active{transform:scale(.95);}
+.pkg b{display:block;font-size:18px;margin-bottom:6px;color:var(--text);}
+.pkg .price{color:var(--gold);font-weight:700;}
+.hit{position:absolute;top:-8px;right:10px;background:#f97316;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;}
+.card{background:var(--card);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid var(--border);border-radius:20px;padding:14px;margin-bottom:10px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 4px 16px rgba(0,0,0,.06);}
+.row{display:flex;justify-content:space-between;align-items:center;}
+.status{font-size:12px;font-weight:700;padding:3px 9px;border-radius:20px;}
+.status.pending{background:rgba(245,166,35,.18);color:var(--gold);}
+.status.approved{background:rgba(34,197,94,.18);color:#22c55e;}
+.status.rejected{background:rgba(239,68,68,.18);color:#ef4444;}
+.bottomnav{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;
+  display:flex;gap:4px;background:var(--card);backdrop-filter:blur(28px) saturate(190%);-webkit-backdrop-filter:blur(28px) saturate(190%);
+  border:1px solid var(--border);border-radius:26px;padding:6px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 12px 34px rgba(0,0,0,.2);}
+.navbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:transparent;
+  padding:9px 6px;border-radius:19px;font-weight:600;font-size:11px;color:var(--sub);cursor:pointer;
+  transition:background .25s,color .25s,transform .15s cubic-bezier(.34,1.56,.64,1);}
+.navbtn:active{transform:scale(.92);}
+.navbtn.active{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(59,130,246,.4);}
+.navbtn svg{width:20px;height:20px;margin:0;}
+.hidden{display:none !important;}
+.maint{text-align:center;padding:60px 20px;color:var(--text);}
+.maint .ico{font-size:44px;margin-bottom:14px;animation:spin 2.4s linear infinite;display:inline-block;color:var(--gold);}
+@keyframes spin{to{transform:rotate(360deg);}}
+.dots span{animation:blink 1.4s infinite;}
+.dots span:nth-child(2){animation-delay:.2s;}
+.dots span:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
+input,.searchbar{width:100%;padding:13px 16px;border-radius:16px;border:1px solid var(--border);background:var(--card);
+  backdrop-filter:blur(14px) saturate(180%);color:var(--text);font-size:14px;}
+input::placeholder{color:var(--sub);}
+.btn{border:1px solid var(--border);border-radius:14px;padding:10px 16px;font-weight:700;font-size:13px;cursor:pointer;
+  backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25);transition:transform .15s cubic-bezier(.34,1.56,.64,1);}
+.btn:active{transform:scale(.93);}
+.btn.ok{background:rgba(34,197,94,.7);color:#fff;}
+.btn.no{background:rgba(239,68,68,.7);color:#fff;}
+.stat{background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:24px;padding:20px;color:#fff;margin-bottom:16px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 10px 28px rgba(245,166,35,.3);}
+.stat b{font-size:28px;display:block;}
+.switch{position:relative;width:50px;height:29px;background:var(--card);backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%);
+  border:1px solid var(--border);box-shadow:inset 0 1px 3px rgba(0,0,0,.15);border-radius:20px;cursor:pointer;flex-shrink:0;transition:background .25s;}
+.switch.on{background:rgba(34,197,94,.6);}
+.switch i{position:absolute;top:3px;left:3px;width:23px;height:23px;background:#fff;border-radius:50%;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);transition:.25s cubic-bezier(.34,1.56,.64,1);}
+.switch.on i{left:24px;}
+.countup{transition:.3s;}
+.ovl{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;}
+.dlg{background:var(--solid);border:1px solid var(--border);
+  border-radius:26px;padding:22px;width:100%;max-width:340px;color:var(--solidtext);box-shadow:0 24px 60px rgba(0,0,0,.4);}
+.dlg h3{font-size:17px;margin-bottom:12px;color:var(--solidtext);}
+.dlg p{font-size:14px;color:var(--sub);margin-bottom:12px;}
+.dlg .row2{display:flex;gap:8px;margin-top:14px;}
+.dlg .row2 button{flex:1;padding:12px;border-radius:14px;border:none;font-weight:700;cursor:pointer;transition:transform .15s cubic-bezier(.34,1.56,.64,1);}
+.dlg .row2 button:active{transform:scale(.93);}
+.dlg .cancel{background:var(--cancelbg);color:var(--solidtext);}
+.dlg .ok{background:var(--accent);color:#fff;}
+.dlg input{background:var(--cancelbg);border:1px solid var(--border);color:var(--solidtext);border-radius:14px;}
+.icnbtn svg{width:18px;height:18px;}
+.backbtn{display:flex;align-items:center;gap:6px;background:none;border:none;color:var(--text);font-weight:600;font-size:14px;cursor:pointer;padding:6px 0 16px;}
+.backbtn svg{width:18px;height:18px;}
+.supportbtn{position:fixed;right:16px;bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:19;
+  width:52px;height:52px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(59,130,246,.45);}
+.supportbtn svg{width:24px;height:24px;}
+</style>
 </head>
-
 <body>
-  <div class="bg-glow">
-    <div class="glow-1"></div>
-    <div class="glow-2"></div>
+<div class="topbar">
+  <h1><span class="dot"></span>@SeGiftBot</h1>
+  <div style="display:flex;gap:8px;">
+    <button class="icnbtn" id="themeBtn"><svg id="themeIco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+    <button class="icnbtn" id="adminBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></button>
   </div>
-  <div class="container">
-    <header>
-      <div class="logo-box">
-        <span>@SeGiftBot</span>
-        <div class="check-icon">...</div>
-      </div>
-      <div class="header-btns">
-        <button onclick="toggleTheme()" class="icon-btn" id="themeBtn" title="Rejimni o'zgartirish"><i
-            class="fa-solid fa-sun" id="themeIcon"></i></button>
-        <button onclick="openAdminModal()" class="icon-btn" title="Admin Panel"><i
-            class="fa-solid fa-lock"></i></button>
-      </div>
-    </header>
-    <main style="padding-top: 16px;">
-      <div id="tabMain">
-        <div class="glass-card banner">
-          <div
-            style="display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2;">
-            <div>
-              <div class="star-badge"><i class="fa-solid fa-bolt"><span>Telegram Stars</span></i></div>
-              <h1 style="font-size: 20px; font-weight: 900; margin-bottom: 4px;">Tezkor va Ishonchli</h1>
-              <p style="font-size: 12px; color: var(--text-muted);">1 ta Star = <span
-                  style="color: #fbbf24; font-weight: bold;">200 so'm</span></p>
-            </div>
-            <div
-              style="width: 56px; height: 56px; background: linear-gradient(135deg, #fbbf24, #d97706); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
-              ⭐</div>
-          </div>
-        </div>
-        <div
-          style="font-size: 11px; font-weight: bold; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;">
-          Paketni tanlang</div>
-        <div class="packages-grid">
-          <div onclick="selectPackage(15, 3000)" class="package-card">
-            <div style="font-weight: 900; font-size: 15px;">15 Stars</div>
-            <div style="color: #fbbf24; font-weight: 900; margin-top: 12px;">3,000 so'm</div>
-          </div>
-          <div onclick="selectPackage(25, 5000)" class="package-card">
-            <div style="font-weight: 900; font-size: 15px;">25 Stars</div>
-            <div style="color: #fbbf24; font-weight: 900; margin-top: 12px;">5,000 so'm</div>
-          </div>
-          <div onclick="selectPackage(50, 10000)" class="package-card">
-            <div style="font-weight: 900; font-size: 15px;">50 Stars</div>
-            <div style="color: #fbbf24; font-weight: 900; margin-top: 12px;">10,000 so'm</div>
-          </div>
-          <div onclick="selectPackage(100, 20000)" class="package-card">
-            <div class="hit-badge">HIT</div>
-            <div style="font-weight: 900; font-size: 15px;">100 Stars</div>
-            <div style="color: #fbbf24; font-weight: 900; margin-top: 12px;">20,000 so'm</div>
-          </div>
-        </div>
-      </div>
-      <div class="info-capsule">
-    <div style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; background: rgba(59, 130, 246, 0.25); border: 1px solid rgba(59, 130, 246, 0.4); display: flex; align-items: center; justify-content: center; color: #60a5fa; font-size: 14px;">
-        <i class="fa-solid fa-info"></i>
-    </div>
-    <div style="font-size: 13px; color: #cbd5e1; line-height: 1.4; font-weight: 500;">
-        Buyurtma Bergandan Soʻng Adminlar Sizga Yozdi Karta Beradi Toʻlov Qilasiz Va Admin Tasdiqlasa Gift Beriladi! Admin: @UsmanAds
-    </div>
-      </div>
-      <div id="tabHistory" class="hidden">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-          <h2 style="font-size: 16px; font-weight: 900;">Buyurtmalar tarixi</h2>
-          <span id="historyCount"
-            style="font-size: 11px; background: var(--card-bg); padding: 4px 10px; border-radius: 20px; color: var(--text-muted);">0
-            ta buyurtma</span>
-        </div>
-        <div id="historyList" style="display: flex; flex-direction: column; gap: 10px;"></div>
-      </div>
-    </main>
-    <nav class="bottom-nav">
-      <div class="nav-container">
-        <button onclick="switchTab('main')" id="navMainBtn" class="nav-btn active"><i
-            class="fa-solid fa-house"></i><span>Asosiy</span></button>
-        <button onclick="switchTab('history')" id="navHistoryBtn" class="nav-btn"><i
-            class="fa-solid fa-clock-rotate-left"></i><span>Tarix</span></button>
-      </div>
-    </nav>
-  </div>
+</div>
 
-  <!-- Modallar -->
-  <div id="usernameModal" class="modal-overlay hidden">
-    <div class="modal-box">
-      <button onclick="closeUsernameModal()" class="icon-btn" style="position: absolute; top: 16px; right: 16px;"><i
-          class="fa-solid fa-xmark"></i></button>
-      <h3 id="modalPackageTitle" style="font-size: 18px; font-weight: 900; margin-bottom: 10px;">15 Stars</h3>
-      <label style="font-size: 11px; color: var(--text-muted);">Telegram Username (@)</label>
-      <div style="position: relative;"><span
-          style="position: absolute; left: 12px; top: 22px; color: var(--text-muted);">@</span><input type="text"
-          id="usernameInput" placeholder="username" class="input-box"></div>
-      <button onclick="submitOrder()" class="btn-primary">Buyurtma berish</button>
+<main>
+  <div id="view-shop">
+    <div class="hero">
+      <div>
+        <span class="badge">⚡ Telegram Stars</span>
+        <h2>Tezkor va Ishonchli</h2>
+        <p>1 ta Star = <b>200 so'm</b></p>
+      </div>
+      <div class="star">⭐</div>
+    </div>
+    <div id="shopBody">
+      <p class="sec-title">PAKETNI TANLANG</p>
+      <div class="grid" id="pkgGrid"></div>
     </div>
   </div>
-  <div id="adminLoginModal" class="modal-overlay hidden">
-    <div class="modal-box">
-      <button onclick="closeAdminLoginModal()" class="icon-btn" style="position: absolute; top: 16px; right: 16px;"><i
-          class="fa-solid fa-xmark"></i></button>
-      <h3 style="font-size: 18px; font-weight: 900; margin-bottom: 10px;">Admin Panel</h3>
-      <input type="password" id="adminCodeInput" placeholder="••••••••" class="input-box"
-        style="padding-left: 16px; text-align: center; letter-spacing: 4px;">
-      <button onclick="verifyAdminCode()" class="btn-primary" style="background: #2563eb;">Kirish</button>
-    </div>
+
+  <div id="view-history" class="hidden">
+    <p class="sec-title">SIZNING BUYURTMALARINGIZ</p>
+    <div id="historyList"></div>
   </div>
-  <div id="adminPanelModal" class="modal-overlay hidden" style="align-items: flex-end; padding: 0;">
-    <div class="modal-bottom">
-      <div
-        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--card-border); padding-bottom: 12px;">
-        <span style="font-weight: 900;">Admin Boshqaruvi</span><button onclick="closeAdminPanel()" class="icon-btn"><i
-            class="fa-solid fa-xmark"></i></button>
+
+  <div id="view-admin" class="hidden">
+    <button class="backbtn" id="adminBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Orqaga</button>
+    <div class="stat"><span>Sotilgan Stars</span><b id="totalStars" class="countup">0</b></div>
+    <div class="card row" style="margin-bottom:14px;">
+      <div>
+        <b style="display:block;">Web-App holati</b>
+        <span style="font-size:12px;color:var(--sub);" id="shopStateLabel">Yoqilgan</span>
       </div>
-      <div id="adminOrdersList"
-        style="overflow-y: auto; max-height: 60vh; display: flex; flex-direction: column; gap: 10px;"></div>
+      <div class="switch on" id="shopSwitch"><i></i></div>
     </div>
+    <input id="searchId" placeholder="Buyurtma ID bo'yicha qidirish..." style="margin-bottom:12px;">
+    <div id="adminList"></div>
   </div>
-  <script>
-        let orders = [];
-        try {
-            const savedOrders = localStorage.getItem('segift_orders_v5');
-            if (savedOrders) { orders = JSON.parse(savedOrders); }
-        } catch(e) { orders = []; }
+</main>
 
-        let selectedPkg = { stars: 0, price: 0 };
+<button class="supportbtn" onclick="window.open('https://t.me/UsmanAds','_blank')" title="Support">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5z"/>
+    <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z"/>
+  </svg>
+</button>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            updateHistoryUI();
-            const savedTheme = localStorage.getItem('segift_theme');
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-mode');
-                document.getElementById('themeIcon').className = 'fa-solid fa-moon';
-            }
-        });
+<div class="bottomnav" id="bottomnav">
+  <button class="navbtn active" data-v="shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Asosiy</button>
+  <button class="navbtn" data-v="history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Tarix</button>
+</div>
 
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            document.getElementById('themeIcon').className = isLight ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-            localStorage.setItem('segift_theme', isLight ? 'light' : 'dark');
-        }
+<script>
+const PKGS=[{s:15,p:'3,000'},{s:25,p:'5,000'},{s:50,p:'10,000'},{s:100,p:'20,000',hit:true}];
+const ADMIN_CODE='12344321';
+let db=null, myOrders=JSON.parse(localStorage.getItem('mySeGiftOrders')||'[]');
+const $=s=>document.querySelector(s);
 
-        function saveOrders() {
-            try { localStorage.setItem('segift_orders_v5', JSON.stringify(orders)); } catch(e) {}
-        }
+let actx;
+function playClick(){
+  try{
+    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    if(actx.state==='suspended') actx.resume();
+    const o=actx.createOscillator(), g=actx.createGain();
+    o.type='sine'; o.frequency.value=680;
+    g.gain.setValueAtTime(0.18,actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+0.1);
+    o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime+0.1);
+  }catch(e){}
+}
+document.addEventListener('click',e=>{
+  if(e.target.closest('button,.switch,.pkg')) playClick();
+},true);
 
-        function selectPackage(stars, price) {
-            selectedPkg = { stars, price };
-            document.getElementById('modalPackageTitle').innerText = `${stars} Stars`;
-            document.getElementById('usernameInput').value = '';
-            document.getElementById('usernameModal').classList.remove('hidden');
-        }
+function showDialog({title,text,placeholder,needInput,okLabel}){
+  return new Promise(resolve=>{
+    const ovl=document.createElement('div'); ovl.className='ovl';
+    ovl.innerHTML=`<div class="dlg">
+      <h3>${title}</h3>
+      ${text?`<p>${text}</p>`:''}
+      ${needInput?`<input id="dlgInput" placeholder="${placeholder||''}">`:''}
+      <div class="row2"><button class="cancel" id="dlgCancel">Bekor qilish</button>
+      <button class="ok" id="dlgOk">${okLabel||'OK'}</button></div>
+    </div>`;
+    document.body.appendChild(ovl);
+    const input=ovl.querySelector('#dlgInput');
+    if(input)input.focus();
+    const close=val=>{ovl.remove();resolve(val);};
+    ovl.querySelector('#dlgCancel').onclick=()=>close(null);
+    ovl.querySelector('#dlgOk').onclick=()=>close(needInput?(input.value||null):true);
+    ovl.onclick=e=>{if(e.target===ovl)close(null);};
+    if(input)input.onkeydown=e=>{if(e.key==='Enter')close(input.value||null);};
+  });
+}
+function showMsg(title,text){return showDialog({title,text,okLabel:'Tushunarli'});}
 
-        function closeUsernameModal() { document.getElementById('usernameModal').classList.add('hidden'); }
+function renderPkgs(){
+  $('#pkgGrid').innerHTML=PKGS.map(p=>`<button class="pkg" onclick="buy(${p.s},'${p.p}')">
+    ${p.hit?'<span class="hit">HIT</span>':''}
+    <b>${p.s} Stars</b><span class="price">${p.p} so'm</span></button>`).join('');
+}
 
-        function submitOrder() {
-            let username = document.getElementById('usernameInput').value.trim();
-            if (!username) { alert('Iltimos, Telegram usernameni kiriting!'); return; }
-            if (username.startsWith('@')) { username = username.substring(1); }
+async function nextId(){
+  if(db){
+    try{
+      const ref=db.doc('shop/counter');
+      let cur=0;
+      try{
+        const snap=await ref.get();
+        const data=snap&&(typeof snap.data==='function'?snap.data():(snap.data||snap));
+        cur=(data&&data.seq)||0;
+      }catch(e){}
+      cur+=1;
+      await ref.set({seq:cur});
+      return String(cur);
+    }catch(e){}
+  }
+  let cur=parseInt(localStorage.getItem('sgSeq')||'0',10)+1;
+  localStorage.setItem('sgSeq',String(cur));
+  return String(cur);
+}
 
-            const newOrder = {
-                id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
-                stars: selectedPkg.stars,
-                price: selectedPkg.price,
-                username: '@' + username,
-                date: new Date().toLocaleString(),
-                status: 'Kutilmoqda'
-            };
+async function buy(stars,price){
+  const uname=await showDialog({title:stars+' Stars sotib olish',text:"Telegram foydalanuvchi nomingizni kiriting:",placeholder:'@username',needInput:true,okLabel:'Buyurtma berish'});
+  if(!uname)return;
+  const id=await nextId();
+  const order={id,username:uname,stars,price,status:'pending',createdAt:Date.now()};
+  myOrders.unshift(order); localStorage.setItem('mySeGiftOrders',JSON.stringify(myOrders));
+  if(db){ try{ await db.collection('orders').doc(id).set(order); }catch(e){} }
+  await showMsg('Buyurtma qabul qilindi!',"ID: "+id+"<br>Admin tasdiqlaganidan so'ng Stars beriladi.");
+  renderHistory();
+}
 
-            orders.unshift(newOrder);
-            saveOrders();
-            closeUsernameModal();
-            updateHistoryUI();
-            switchTab('history');
-            alert('Buyurtmangiz muvaffaqiyatli saqlandi!');
-        }
+function statusLabel(s){return s==='approved'?'Tasdiqlangan':s==='rejected'?'Bekor qilingan':'Kutilmoqda';}
 
-        function switchTab(tab) {
-            const tabMain = document.getElementById('tabMain');
-            const tabHistory = document.getElementById('tabHistory');
-            const navMainBtn = document.getElementById('navMainBtn');
-            const navHistoryBtn = document.getElementById('navHistoryBtn');
+function renderHistory(){
+  const merged=myOrders.map(o=>{
+    const live=allOrders.find(x=>x.id===o.id);
+    return live?Object.assign({},o,{status:live.status}):o;
+  });
+  if(!merged.length){$('#historyList').innerHTML='<p style="color:var(--sub);text-align:center;padding:30px 0;">Hali buyurtmalar yo\'q</p>';return;}
+  $('#historyList').innerHTML=merged.map(o=>`<div class="card row">
+    <div><b>${o.stars} Stars</b><div style="font-size:12px;color:var(--sub);">ID: ${o.id}</div></div>
+    <span class="status ${o.status}">${statusLabel(o.status)}</span></div>`).join('');
+}
 
-            if (tab === 'main') {
-                tabMain.classList.remove('hidden');
-                tabHistory.classList.add('hidden');
-                navMainBtn.className = "nav-btn active";
-                navHistoryBtn.className = "nav-btn";
-            } else {
-                tabMain.classList.add('hidden');
-                tabHistory.classList.remove('hidden');
-                navHistoryBtn.className = "nav-btn active";
-                navMainBtn.className = "nav-btn";
-                updateHistoryUI();
-            }
-        }
+// nav
+document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  $('#view-shop').classList.toggle('hidden',b.dataset.v!=='shop');
+  $('#view-history').classList.toggle('hidden',b.dataset.v!=='history');
+  $('#view-admin').classList.add('hidden');
+  $('#bottomnav').classList.remove('hidden');
+  if(b.dataset.v==='history')renderHistory();
+});
 
-        function updateHistoryUI() {
-            const historyList = document.getElementById('historyList');
-            const historyCount = document.getElementById('historyCount');
-            historyCount.innerText = `${orders.length} ta buyurtma`;
+$('#adminBack').onclick=()=>{
+  isAdmin=isAdmin; // keep session until page reload
+  $('#view-admin').classList.add('hidden');
+  $('#view-shop').classList.remove('hidden');
+  $('#bottomnav').classList.remove('hidden');
+  document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.v==='shop'));
+};
 
-            if (orders.length === 0) {
-                historyList.innerHTML = `<div style="text-align: center; padding: 40px 0; color: var(--text-muted); font-size: 12px;">Hozircha buyurtmalar tarixi bo'sh</div>`;
-                return;
-            }
+$('#themeBtn').onclick=()=>{
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme');
+  const next=cur==='dark'?'light':'dark';
+  r.setAttribute('data-theme',next);
+  $('#themeIco').innerHTML = next==='dark'
+    ? '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>'
+    : '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+};
 
-            let html = '';
-            orders.forEach(ord => {
-                let badgeColor = ord.status === 'Tasdiqlangan' ? '#34d399' : (ord.status === 'Bekor qilingan' ? '#fb7185' : '#fbbf24');
-                html += `
-                    <div class="glass-card" style="padding: 14px; display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                                <span style="font-weight: 900; font-size: 14px;">${ord.stars} Stars</span>
-                                <span style="font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 10px; color: ${badgeColor}; background: rgba(0,0,0,0.2);">${ord.status}</span>
-                            </div>
-                            <div style="font-size: 11px; color: var(--text-muted);">Username: <b style="color: #3b82f6;">${ord.username}</b></div>
-                            <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">${ord.date} • <b>${ord.price.toLocaleString()} so'm</b></div>
-                        </div>
-                        <div style="font-family: monospace; font-size: 10px; color: var(--text-muted);">${ord.id}</div>
-                    </div>
-                `;
-            });
-            historyList.innerHTML = html;
-        }
+// admin
+let isAdmin=false;
+$('#adminBtn').onclick=async()=>{
+  if(!isAdmin){
+    const pass=await showDialog({title:'Admin panel',text:'Kirish kodini kiriting:',placeholder:'Kod',needInput:true,okLabel:'Kirish'});
+    if(pass===null)return;
+    if(pass!==ADMIN_CODE){ await showMsg('Xatolik',"Noto'g'ri kod"); return; }
+    isAdmin=true;
+  }
+  document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));
+  $('#view-shop').classList.add('hidden'); $('#view-history').classList.add('hidden');
+  $('#view-admin').classList.remove('hidden');
+  $('#bottomnav').classList.add('hidden');
+  loadAdmin();
+};
 
-        function openAdminModal() { document.getElementById('adminCodeInput').value = ''; document.getElementById('adminLoginModal').classList.remove('hidden'); }
-        function closeAdminLoginModal() { document.getElementById('adminLoginModal').classList.add('hidden'); }
-        function verifyAdminCode() {
-            if (document.getElementById('adminCodeInput').value.trim() === '12344321') {
-                closeAdminLoginModal();
-                document.getElementById('adminPanelModal').classList.remove('hidden');
-                updateAdminOrdersUI();
-            } else { alert('Noto\'g\'ri maxfiy kod!'); }
-        }
-        function closeAdminPanel() { document.getElementById('adminPanelModal').classList.add('hidden'); }
+let allOrders=[];
+async function loadAdmin(){
+  renderAdminList($('#searchId').value);
+}
+function renderAdminList(filter){
+  const list=allOrders.filter(o=>!filter||o.id.toLowerCase().includes(filter.toLowerCase()));
+  $('#adminList').innerHTML=list.map(o=>`<div class="card">
+    <div class="row" style="margin-bottom:8px;">
+      <div><b>${o.stars} Stars</b> — ${o.username||''}<div style="font-size:12px;color:var(--sub);">ID: ${o.id}</div></div>
+      <span class="status ${o.status}">${statusLabel(o.status)}</span>
+    </div>
+    ${o.status==='pending'?`<div style="display:flex;gap:8px;">
+      <button class="btn ok" onclick="setStatus('${o.id}','approved')">Tasdiqlash</button>
+      <button class="btn no" onclick="setStatus('${o.id}','rejected')">Bekor qilish</button>
+    </div>`:''}
+  </div>`).join('') || '<p style="color:var(--sub);text-align:center;padding:20px 0;">Buyurtma topilmadi</p>';
+  const total=allOrders.filter(o=>o.status==='approved').reduce((a,o)=>a+o.stars,0);
+  $('#totalStars').textContent=total;
+}
 
-        function updateAdminOrdersUI() {
-            const adminOrdersList = document.getElementById('adminOrdersList');
-            if (orders.length === 0) {
-                adminOrdersList.innerHTML = `<p style="font-size: 12px; text-align: center; color: var(--text-muted); padding: 20px;">Buyurtmalar mavjud emas</p>`;
-                return;
-            }
-            let html = '';
-            orders.forEach((ord, index) => {
-                html += `
-                    <div style="background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
-                        <div style="display: flex; justify-content: space-between;"><span style="font-size: 12px; font-weight: 900; color: #fbbf24;">${ord.stars} Stars</span><span style="font-size: 10px;">${ord.status}</span></div>
-                        <div style="font-size: 12px;">Foydalanuvchi: <b style="color: #3b82f6;">${ord.username}</b></div>
-                        <div style="display: flex; gap: 8px;">
-                            <button onclick="changeOrderStatus(${index}, 'Tasdiqlangan')" style="flex: 1; padding: 6px; background: #059669; color: white; border: none; border-radius: 8px; font-size: 11px; cursor: pointer;">Tasdiqlash</button>
-                            <button onclick="changeOrderStatus(${index}, 'Bekor qilingan')" style="flex: 1; padding: 6px; background: #e11d48; color: white; border: none; border-radius: 8px; font-size: 11px; cursor: pointer;">Bekor qilish</button>
-                        </div>
-                    </div>
-                `;
-            });
-            adminOrdersList.innerHTML = html;
-        }
+async function setStatus(id,status){
+  if(db){ try{ await db.collection('orders').doc(id).update({status}); }catch(e){} }
+  const o=allOrders.find(x=>x.id===id); if(o)o.status=status;
+  renderAdminList($('#searchId').value);
+}
 
-        function changeOrderStatus(index, status) {
-            orders[index].status = status;
-            saveOrders();
-            updateAdminOrdersUI();
-            updateHistoryUI();
-        }
-    </script>
+$('#searchId').oninput=e=>renderAdminList(e.target.value);
+
+$('#shopSwitch').onclick=async()=>{
+  const sw=$('#shopSwitch');
+  const on=!sw.classList.contains('on');
+  sw.classList.toggle('on',on);
+  $('#shopStateLabel').textContent=on?'Yoqilgan':"O'chirilgan";
+  if(db){ try{ await db.doc('shop/config').set({enabled:on}); }catch(e){} }
+  applyShopState(on);
+};
+
+function applyShopState(enabled){
+  if(enabled){
+    $('#shopBody').innerHTML=`<p class="sec-title">PAKETNI TANLANG</p><div class="grid" id="pkgGrid"></div>`;
+    renderPkgs();
+  } else {
+    $('#shopBody').innerHTML=`<div class="maint"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:44px;height:44px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+      <p><b>O'rtada texnik ishlar olib borilmoqda</b></p>
+      <p class="dots" style="margin-top:6px;color:var(--sub);">Iltimos kuting<span>.</span><span>.</span><span>.</span></p></div>`;
+  }
+}
+
+function normDoc(d){
+  if(!d)return null;
+  if(typeof d.data==='function')return Object.assign({},d.data(),{});
+  if(d.data&&typeof d.data==='object')return Object.assign({},d.data);
+  return d;
+}
+
+async function init(){
+  renderPkgs(); renderHistory();
+  try{
+    db = await claude.use('db');
+  }catch(e){ db=null; }
+  if(db){
+    try{
+      db.doc('shop/config').onSnapshot(doc=>{
+        const cfg=(doc&&doc.data?doc.data():doc)||{enabled:true};
+        const enabled=cfg.enabled!==false;
+        $('#shopSwitch').classList.toggle('on',enabled);
+        $('#shopStateLabel').textContent=enabled?'Yoqilgan':"O'chirilgan";
+        applyShopState(enabled);
+      });
+    }catch(e){}
+    try{
+      db.collection('orders').onSnapshot(res=>{
+        const list=Array.isArray(res)?res:(res&&res.docs)?res.docs:[];
+        allOrders=list.map(normDoc).filter(o=>o&&o.id).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+        if(!$('#view-history').classList.contains('hidden'))renderHistory();
+        if(!$('#view-admin').classList.contains('hidden'))renderAdminList($('#searchId').value);
+      });
+    }catch(e){ allOrders=myOrders; }
+  } else { allOrders=myOrders; }
+}
+init();
+</script>
 </body>
-
 </html>
