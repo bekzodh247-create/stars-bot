@@ -346,8 +346,14 @@ function renderAdminList(filter){
 }
 
 async function setStatus(id,status){
-  if(db){ try{ await db.collection('orders').doc(id).update({status}); }catch(e){} }
-  const o=allOrders.find(x=>x.id===id); if(o)o.status=status;
+  const cur=allOrders.find(x=>x.id===id)||myOrders.find(x=>x.id===id)||{id};
+  const updated=Object.assign({},cur,{status});
+  if(db){
+    try{ await db.collection('orders').doc(id).set(updated); }
+    catch(e){ try{ await db.collection('orders').doc(id).update({status}); }catch(e2){} }
+  }
+  const o=allOrders.find(x=>x.id===id); if(o)o.status=status; else allOrders.push(updated);
+  const mo=myOrders.find(x=>x.id===id); if(mo){ mo.status=status; localStorage.setItem('mySeGiftOrders',JSON.stringify(myOrders)); }
   renderAdminList($('#searchId').value);
 }
 
